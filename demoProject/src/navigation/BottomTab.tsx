@@ -1,107 +1,137 @@
-import React from 'react';
-import {
-  BottomTabBarProps,
-  createBottomTabNavigator,
-} from '@react-navigation/bottom-tabs';
+import React, {ReactNode} from 'react';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {RootStackParamList} from './RootStackNavigator';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
 import InitialPage from '../pages/InitialPage/InitialPage';
 import OtherPage from '../pages/OtherPage/OtherPage';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {SvgIcons} from '../components';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import PlusPage from '../pages/PlusPage/PlusPage';
 
 const BottomTab = createBottomTabNavigator<RootStackParamList>();
+
+interface CustomTabBarButtonProps {
+  children: ReactNode;
+  onPress: () => void;
+  style?: StyleProp<ViewStyle>;
+}
+
+const CustomTabBarButton: React.FC<CustomTabBarButtonProps> = ({
+  children,
+  onPress,
+}) => {
+  return (
+    <TouchableOpacity
+      style={{
+        top: -30,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+      onPress={onPress}>
+      <View
+        style={{
+          width: 70,
+          height: 70,
+          borderRadius: 35,
+          backgroundColor: '#e32f45',
+        }}>
+        {children}
+      </View>
+    </TouchableOpacity>
+  );
+};
 
 const BottomTabNavigator = () => {
   return (
     <BottomTab.Navigator
-      tabBar={TabBar}
       screenOptions={{
-        tabBarStyle: {position: 'absolute'},
+        headerShown: true,
+        tabBarStyle: {
+          position: 'absolute',
+          height: 68,
+          bottom: 10,
+          borderTopStartRadius: 20,
+          borderTopEndRadius: 20,
+          backgroundColor: '#fff',
+          ...styles.shadow,
+          borderWidth: 1.5,
+          borderColor: '#ECEEEF',
+        },
       }}>
       <BottomTab.Screen
-        name="BottomMainPage"
+        name="InitialPage"
         component={InitialPage}
         options={{
-          tabBarLabel: 'InitialPage',
+          headerShown: true,
+          tabBarLabel: '',
+          tabBarIcon: ({focused}) => (
+            <View style={styles.bottomTabItem}>
+              <SvgIcons.Kesfet width={26} height={24} />
+              <Text style={styles.bottomTabActiveText}>InitialPage</Text>
+            </View>
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="PlusPage"
+        component={PlusPage}
+        options={{
+          tabBarLabel: '',
+          tabBarIcon: () => <SvgIcons.DahaDaha width={26} height={24} />,
+          tabBarButton: props => <CustomTabBarButton {...props} />,
         }}
       />
       <BottomTab.Screen
         name="OtherPage"
         component={OtherPage}
         options={{
-          tabBarLabel: 'OtherPage',
-          tabBarBadge: 3,
+          tabBarLabel: '',
+          tabBarIcon: () => (
+            <View style={styles.bottomTabItem}>
+              <SvgIcons.Katıldıklarım width={26} height={24} fill="#ADADAD" />
+              <Text style={styles.bottomTabActiveText}>Other Page</Text>
+            </View>
+          ),
         }}
       />
     </BottomTab.Navigator>
   );
 };
 
-const TabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
-  return (
-    <View style={{flexDirection: 'row'}}>
-      {state.routes.map((route, index) => {
-        const {options} = descriptors[route.key];
+const styles = StyleSheet.create({
+  shadow: {
+    shadowColor: 'rgba(0,0,0,0.05)',
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 6,
+    shadowRadius: 6,
+    elevation: 6,
+  },
 
-        // Define the type for options
-        type TabBarOptions = {
-          tabBarLabel?: string;
-          title?: string;
-          tabBarAccessibilityLabel?: string;
-          tabBarTestID?: string;
-        };
+  bottomTabItem: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    top: 15,
+  },
 
-        const label =
-          (options as TabBarOptions).tabBarLabel !== undefined
-            ? (options as TabBarOptions).tabBarLabel
-            : (options as TabBarOptions).title !== undefined
-            ? (options as TabBarOptions).title
-            : route.name;
+  bottomTabActiveText: {
+    top: 4,
+    color: '#1D1E1C',
+    textAlign: 'center',
+    fontFamily: 'Helvetica',
+    fontSize: 10,
+    fontStyle: 'normal',
+    fontWeight: '700',
+    letterSpacing: 0.5,
+  },
 
-        const isFocused = state.index === index;
-
-        const onPress = () => {
-          const event = navigation.emit({
-            type: 'tabPress',
-            target: route.key,
-            canPreventDefault: true,
-          });
-
-          if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name, route.params);
-          }
-        };
-
-        const onLongPress = () => {
-          navigation.emit({
-            type: 'tabLongPress',
-            target: route.key,
-          });
-        };
-
-        return (
-          <SafeAreaView
-            edges={['bottom']}
-            style={{flex: 1, alignItems: 'center'}}>
-            <TouchableOpacity
-              accessibilityRole="button"
-              accessibilityState={isFocused ? {selected: true} : {}}
-              accessibilityLabel={
-                (options as TabBarOptions).tabBarAccessibilityLabel
-              }
-              testID={(options as TabBarOptions).tabBarTestID}
-              onPress={onPress}
-              onLongPress={onLongPress}
-              key={route.key}>
-              <Text style={{color: isFocused ? '#673ab7' : '#222'}}>
-                {label}
-              </Text>
-            </TouchableOpacity>
-          </SafeAreaView>
-        );
-      })}
-    </View>
-  );
-};
+  customButton: {
+    top: -30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default BottomTabNavigator;

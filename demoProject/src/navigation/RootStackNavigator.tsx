@@ -5,7 +5,7 @@ import BottomTabNavigator from './BottomTab';
 export type RootStackParamList = {
   InitialPage: undefined;
   OtherPage: undefined;
-  BottomMainPage: undefined;
+  PlusPage: undefined;
 };
 
 type Props = {

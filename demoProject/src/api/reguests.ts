@@ -1,28 +1,30 @@
-import {ApiResponse} from '../types/api';
+import {PromotionList, PromotionWithId, TagList} from '../types/api';
 import api from './serverConnections/api';
 
-export const getTagList = async (): Promise<ApiResponse> => {
+export const getTagList = async (): Promise<TagList[]> => {
   const path = '/tags/list';
 
-  const {data} = await api.GET<ApiResponse>(path);
+  const {data} = await api.GET<TagList[]>(path);
 
   return data;
 };
 
 export const getPromotionsList = async (
-  Channel = 'PWA',
-): Promise<ApiResponse> => {
-  const path = `/promotions/list?=${Channel}`;
+  PWA = 'PWA',
+): Promise<PromotionList[]> => {
+  const path = `/promotions/list?Channel=${PWA}`;
 
-  const {data} = await api.GET<ApiResponse>(path);
+  const {data} = await api.GET<PromotionList[]>(path);
 
   return data;
 };
 
-export const getPromotionWithId = async (id: number): Promise<ApiResponse> => {
-  const path = `/promotions?=${id}`;
+export const getPromotionWithId = async (
+  id: number,
+): Promise<PromotionWithId> => {
+  const path = `/promotions?Id=${id}`;
 
-  const {data} = await api.GET<ApiResponse>(path);
+  const {data} = await api.GET<PromotionWithId>(path);
 
   return data;
 };

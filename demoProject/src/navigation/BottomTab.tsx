@@ -1,7 +1,7 @@
 import React, {ReactNode} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {RootStackParamList} from './RootStackNavigator';
-import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import InitialPage from '../pages/InitialPage/InitialPage';
 import OtherPage from '../pages/OtherPage/OtherPage';
 import {SvgIcons} from '../components';
@@ -12,31 +12,12 @@ const BottomTab = createBottomTabNavigator<RootStackParamList>();
 
 interface CustomTabBarButtonProps {
   children: ReactNode;
-  onPress: () => void;
-  style?: StyleProp<ViewStyle>;
 }
 
-const CustomTabBarButton: React.FC<CustomTabBarButtonProps> = ({
-  children,
-  onPress,
-}) => {
+const CustomTabBarButton: React.FC<CustomTabBarButtonProps> = ({children}) => {
   return (
-    <TouchableOpacity
-      style={{
-        top: -30,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-      onPress={onPress}>
-      <View
-        style={{
-          width: 70,
-          height: 70,
-          borderRadius: 35,
-          backgroundColor: '#e32f45',
-        }}>
-        {children}
-      </View>
+    <TouchableOpacity style={styles.customButton}>
+      <View style={styles.customBarButton}>{children}</View>
     </TouchableOpacity>
   );
 };
@@ -45,29 +26,30 @@ const BottomTabNavigator = () => {
   return (
     <BottomTab.Navigator
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
         tabBarStyle: {
           position: 'absolute',
           height: 68,
-          bottom: 10,
-          borderTopStartRadius: 20,
-          borderTopEndRadius: 20,
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
           backgroundColor: '#fff',
-          ...styles.shadow,
           borderWidth: 1.5,
           borderColor: '#ECEEEF',
+          borderStyle: 'solid',
+          ...styles.shadow,
         },
       }}>
       <BottomTab.Screen
         name="InitialPage"
         component={InitialPage}
         options={{
-          headerShown: true,
+          headerShown: false,
           tabBarLabel: '',
           tabBarIcon: ({focused}) => (
-            <View style={styles.bottomTabItem}>
+            <View
+              style={[styles.bottomTabItem, !focused ? styles.opacity : null]}>
               <SvgIcons.Kesfet width={26} height={24} />
-              <Text style={styles.bottomTabActiveText}>InitialPage</Text>
+              <Text style={styles.bottomTabActiveText}>KEŞFET</Text>
             </View>
           ),
         }}
@@ -77,7 +59,7 @@ const BottomTabNavigator = () => {
         component={PlusPage}
         options={{
           tabBarLabel: '',
-          tabBarIcon: () => <SvgIcons.DahaDaha width={26} height={24} />,
+          tabBarIcon: () => <SvgIcons.Portal width={69} height={71} />,
           tabBarButton: props => <CustomTabBarButton {...props} />,
         }}
       />
@@ -86,10 +68,11 @@ const BottomTabNavigator = () => {
         component={OtherPage}
         options={{
           tabBarLabel: '',
-          tabBarIcon: () => (
-            <View style={styles.bottomTabItem}>
+          tabBarIcon: ({focused}) => (
+            <View
+              style={[styles.bottomTabItem, !focused ? styles.opacity : null]}>
               <SvgIcons.Katıldıklarım width={26} height={24} fill="#ADADAD" />
-              <Text style={styles.bottomTabActiveText}>Other Page</Text>
+              <Text style={styles.bottomTabActiveText}>DAHA CÜZDAN</Text>
             </View>
           ),
         }}
@@ -100,12 +83,9 @@ const BottomTabNavigator = () => {
 
 const styles = StyleSheet.create({
   shadow: {
-    shadowColor: 'rgba(0,0,0,0.05)',
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowOpacity: 6,
+    shadowColor: '#0000000d',
+    shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 0.6,
     shadowRadius: 6,
     elevation: 6,
   },
@@ -128,9 +108,16 @@ const styles = StyleSheet.create({
   },
 
   customButton: {
-    top: -30,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  customBarButton: {
+    width: 70,
+    height: 70,
+  },
+  opacity: {
+    opacity: 0.3,
   },
 });
 

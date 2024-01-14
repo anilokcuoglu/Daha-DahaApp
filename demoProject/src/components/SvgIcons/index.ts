@@ -1,3 +1,4 @@
+export {default as BackButton} from './BackButton';
 export {default as DahaDaha} from './DahaDaha';
 export {default as Katıldıklarım} from './Katıldıklarım';
 export {default as Kesfet} from './Kesfet';

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Dimensions, Image, ImageBackground, Text, View} from 'react-native';
+import {Dimensions, Image, Text, View} from 'react-native';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -9,13 +9,16 @@ import Animated, {
 import Carousel from 'react-native-reanimated-carousel';
 import styles from './CarouselCard.styles';
 import {useApiGetPromotionsList} from '../../hooks/useApi';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {RootStackParamList} from '../../navigation/RootStackNavigator';
 
 const CarouselCard = () => {
   const PAGE_WIDTH = Dimensions.get('window').width;
-
   const progressValue = useSharedValue<number>(0);
-
   const {data: PromotionListData} = useApiGetPromotionsList();
+
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const baseOptions = {
     vertical: false,
@@ -52,7 +55,13 @@ const CarouselCard = () => {
         }}
         data={PromotionListData || []}
         renderItem={({item}) => (
-          <View style={styles.cardView}>
+          <TouchableOpacity
+            style={styles.cardView}
+            onPress={() =>
+              navigation.navigate('DetailPage', {
+                id: item.Id,
+              })
+            }>
             <Image
               style={[
                 styles.imageBackground,
@@ -78,7 +87,7 @@ const CarouselCard = () => {
                 Daha Daha
               </Text>
             </View>
-          </View>
+          </TouchableOpacity>
         )}
       />
 

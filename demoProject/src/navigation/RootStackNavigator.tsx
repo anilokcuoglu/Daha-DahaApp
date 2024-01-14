@@ -1,11 +1,15 @@
 import {TransitionPresets, createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
 import BottomTabNavigator from './BottomTab';
+import DetailPage from '../pages/DetailPage/DetailPage';
 
 export type RootStackParamList = {
-  InitialPage: undefined;
+  MainPage: undefined;
   OtherPage: undefined;
   PlusPage: undefined;
+  DetailPage: {
+    id: number;
+  };
 };
 
 type Props = {
@@ -20,9 +24,11 @@ const RootStackNavigator = ({initialRouteName}: Props) => {
         screenOptions={{
           headerShown: false,
           gestureEnabled: false,
-          ...TransitionPresets.ScaleFromCenterAndroid,
+          ...TransitionPresets.FadeFromBottomAndroid,
+          ...TransitionPresets.ModalSlideFromBottomIOS,
         }}>
-        <RootStack.Screen name="InitialPage" component={BottomTabNavigator} />
+        <RootStack.Screen name="MainPage" component={BottomTabNavigator} />
+        <RootStack.Screen name="DetailPage" component={DetailPage} />
       </RootStack.Group>
     </RootStack.Navigator>
   );

@@ -1,12 +1,9 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
+import MainButton from '../../components/MainButton/MainButton';
 
 const OtherPage = () => {
-  return (
-    <View>
-      <Text></Text>
-    </View>
-  );
+  return <View style={{flex: 1}}></View>;
 };
 
 export default OtherPage;

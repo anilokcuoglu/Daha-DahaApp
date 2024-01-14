@@ -1,7 +1,7 @@
 import React, {ReactNode} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {RootStackParamList} from './RootStackNavigator';
-import {StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import InitialPage from '../pages/InitialPage/InitialPage';
 import OtherPage from '../pages/OtherPage/OtherPage';
 import {SvgIcons} from '../components';
@@ -40,7 +40,7 @@ const BottomTabNavigator = () => {
         },
       }}>
       <BottomTab.Screen
-        name="InitialPage"
+        name="MainPage"
         component={InitialPage}
         options={{
           headerShown: false,
@@ -65,7 +65,7 @@ const BottomTabNavigator = () => {
       />
       <BottomTab.Screen
         name="OtherPage"
-        component={OtherPage}
+        component={InitialPage}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({focused}) => (

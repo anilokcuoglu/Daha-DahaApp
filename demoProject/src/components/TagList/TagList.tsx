@@ -3,7 +3,7 @@ import {FlatList, Text, View} from 'react-native';
 import styles from './TagList.styles';
 import {useApiGetTagList} from '../../hooks/useApi';
 import {Image} from 'react-native';
-import {ScrollView, TextInput} from 'react-native-gesture-handler';
+import {TextInput} from 'react-native-gesture-handler';
 import {SvgIcons} from '..';
 
 type ItemProps = {
@@ -36,11 +36,14 @@ const TagList = () => {
     };
   }, [searchTextTemp]);
 
+  const filteredPromotions = searchText
+    ? tagListData?.filter(x =>
+        `${x.Name}`.toLowerCase().includes(searchText.toLowerCase()),
+      )
+    : tagListData;
+
   return (
-    <ScrollView
-      style={styles.tagList}
-      horizontal={true}
-      showsHorizontalScrollIndicator={false}>
+    <View style={styles.tagList}>
       <View style={styles.item}>
         <SvgIcons.Search height={24} width={24} />
         <TextInput
@@ -48,20 +51,19 @@ const TagList = () => {
           onChangeText={text => setSearchTextTemp(text)}
           value={searchTextTemp}
           placeholder="Fırsat Bul"
-          key={searchText}
         />
       </View>
 
       <FlatList
-        data={tagListData}
+        data={filteredPromotions}
         renderItem={({item}) => (
           <Item IconUrl={item.IconUrl} Name={item.Name} />
         )}
         keyExtractor={item => item.Name}
-        horizontal={true}
+        horizontal
         showsHorizontalScrollIndicator={false}
       />
-    </ScrollView>
+    </View>
   );
 };
 

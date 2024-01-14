@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   button: {
-    width: 345,
+    width: '100%',
     height: 56,
     position: 'absolute',
     backgroundColor: '#F40000',

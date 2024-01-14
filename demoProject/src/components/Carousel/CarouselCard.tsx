@@ -41,7 +41,7 @@ const CarouselCard = () => {
         {...baseOptions}
         style={{
           width: PAGE_WIDTH,
-          marginBottom: 100,
+          marginBottom: 120,
         }}
         autoPlay={false}
         autoPlayInterval={1500}

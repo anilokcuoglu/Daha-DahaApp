@@ -10,7 +10,7 @@ export const useApiGetTagList = () => {
 };
 
 export const useApiGetPromotionsList = () => {
-  return useQuery<PromotionList[]>({
+  return useQuery<PromotionList[] | undefined>({
     queryKey: ['getPromotionsList'],
     queryFn: () => apiCalls.getPromotionsList(),
   });

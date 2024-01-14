@@ -37,7 +37,10 @@ const TagList = () => {
   }, [searchTextTemp]);
 
   return (
-    <ScrollView style={styles.tagList} horizontal={true}>
+    <ScrollView
+      style={styles.tagList}
+      horizontal={true}
+      showsHorizontalScrollIndicator={false}>
       <View style={styles.item}>
         <SvgIcons.Search height={24} width={24} />
         <TextInput

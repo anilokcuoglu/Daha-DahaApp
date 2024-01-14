@@ -7,6 +7,7 @@ import {SvgIcons} from '../../components';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import TagList from '../../components/TagList/TagList';
 import CarouselCard from '../../components/Carousel/CarouselCard';
+import BackDrop from '../../components/BackDrop/BackDrop';
 
 const InitialPage = () => {
   const {data} = useApiGetTagList();
@@ -30,6 +31,7 @@ const InitialPage = () => {
 
       <TagList />
       <CarouselCard />
+      <BackDrop />
     </SafeAreaView>
   );
 };
